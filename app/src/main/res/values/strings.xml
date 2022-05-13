@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Android Neural Network Demo</string>
+	<string name="instructions">Provide the number of epochs and learning rate you would like to train the model with. You can also load another model or plot its accuracy.</string>
+    <string name="train">Train</string>
+    <string name="save">Save</string>
+    <string name="load">Load</string>
+    <string name="plot_scatter">Plot Scatter</string>
+    <string name="plot_loss">Plot Loss</string>
+    <string name="epochs">Epochs</string>
+    <string name="rate">Rate</string>
+</resources>
