@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PyObject backend;
 
+    private Button randomButton;
     private Button saveButton;
     private Button scatterButton;
     private Button lossButton;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             requestPermissionLauncher.launch(permissions);
         }
 
+        randomButton = findViewById(R.id.randomButton);
         saveButton = findViewById(R.id.saveButton);
         scatterButton = findViewById(R.id.scatterButton);
         lossButton = findViewById(R.id.lossButton);
@@ -101,6 +103,25 @@ public class MainActivity extends AppCompatActivity {
         saveButton.setEnabled(true);
         scatterButton.setEnabled(true);
         lossButton.setEnabled(true);
+    }
+
+    public void onClickRandom(View view) {
+        boolean data_holdover_empty = Boolean.parseBoolean(backend.callAttr("random_select").toString());
+
+        AlertDialog.Builder selected = new AlertDialog.Builder(MainActivity.this);
+
+        selected.setTitle("Random Datapoint Added!");
+        selected.setMessage(
+                "A random datapoint has been chosen to be added to the dataset, press the Train button to retrain the model with new data.");
+        selected.setPositiveButton("Dismiss", (dialog, id) -> dialog.dismiss());
+
+        AlertDialog trainedDialog = selected.create();
+
+        trainedDialog.show();
+
+        if (data_holdover_empty) {
+            randomButton.setEnabled(false);
+        }
     }
 
     public void onClickLoad(View view) {

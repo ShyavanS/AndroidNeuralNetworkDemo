@@ -24,12 +24,11 @@
         android:id="@+id/trainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
+        android:onClick="onClickTrain"
         android:text="@string/train"
         android:textAllCaps="true"
-        android:onClick="onClickTrain"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
 
@@ -38,7 +37,7 @@
         android:layout_width="92dp"
         android:layout_height="48dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="92dp"
+        android:layout_marginEnd="50dp"
         android:ems="10"
         android:hint="@string/rate"
         android:importantForAutofill="no"
@@ -54,7 +53,7 @@
         android:id="@+id/editTextNumber"
         android:layout_width="92dp"
         android:layout_height="48dp"
-        android:layout_marginStart="92dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="@string/epochs"
@@ -69,10 +68,10 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:text="@string/save"
         android:onClick="onClickSave"
+        android:text="@string/save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trainButton" />
 
@@ -81,22 +80,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="92dp"
-        android:text="@string/load"
+        android:layout_marginEnd="50dp"
         android:onClick="onClickLoad"
+        android:text="@string/load"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/saveButton"
-        app:layout_constraintTop_toBottomOf="@+id/trainButton" />
+        app:layout_constraintTop_toBottomOf="@+id/randomButton" />
 
     <Button
         android:id="@+id/scatterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:text="@string/plot_scatter"
         android:onClick="onClickScatter"
+        android:text="@string/plot_scatter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/saveButton" />
 
@@ -104,13 +103,26 @@
         android:id="@+id/lossButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/plot_loss"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
         android:onClick="onClickLoss"
+        android:text="@string/plot_loss"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.881"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/scatterButton"
         app:layout_constraintTop_toBottomOf="@+id/loadButton" />
+
+    <Button
+        android:id="@+id/randomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:onClick="onClickRandom"
+        android:text="@string/random"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/trainButton"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,26 @@
 import os
 import json
+from select import select
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
 import tensorflow as tf
-from tensorflow.keras import datasets, layers, models
+import matplotlib.pyplot as plt
 from sklearn import datasets
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from tensorflow.keras import layers, models
 
-diabetes_x, diabetes_y = datasets.load_diabetes(return_X_y=True)
+data = datasets.load_diabetes(as_frame=True)['frame']
 
-train_x, _, test_x = np.split(diabetes_x, [310, 310], 0)
-train_y, _, test_y = np.split(diabetes_y, [310, 310], 0)
+diabetes_y = data.target
+diabetes_x = data.drop(['target'], axis=1)
+
+train_x, test_x, train_y, test_y = train_test_split(
+    diabetes_x, diabetes_y, test_size=0.2, random_state=1)
+train_x, data_x, train_y, data_y = train_test_split(
+    train_x, train_y, test_size=0.5, random_state=1)
+
+data_holdover = pd.merge(data_x, data_y, left_index=True, right_index=True)
 
 model = models.Sequential()
 
@@ -18,6 +29,7 @@ model.add(layers.Dense(10, input_dim=10,
 model.add(layers.Dense(20, kernel_initializer='normal', activation='relu'))
 model.add(layers.Dense(15, kernel_initializer='normal', activation='relu'))
 model.add(layers.Dense(10, kernel_initializer='normal', activation='relu'))
+model.add(layers.Dense(15, kernel_initializer='normal', activation='relu'))
 model.add(layers.Dense(5, kernel_initializer='normal', activation='relu'))
 model.add(layers.Dense(1, kernel_initializer='normal'))
 
@@ -29,13 +41,33 @@ def train_model(epoch, rate):
                   optimizer=tf.optimizers.Adam(learning_rate=rate))
 
     history = model.fit(train_x, train_y, epochs=epoch,
-                        batch_size=10, validation_split=0.3)
+                        batch_size=10, validation_split=0.2)
     history_dict = history.history
     prediction = model.predict(test_x)
-
-    rms = float(tf.sqrt(tf.reduce_mean((test_y - prediction) ** 2)))
+    rms = mean_squared_error(test_y, prediction, squared=False)
 
     return rms
+
+
+def random_select():
+    global train_x, train_y, data_holdover
+
+    data_holdover = data_holdover.reset_index(drop=True)
+
+    selection = data_holdover.sample()
+
+    data_holdover = data_holdover.drop(data_holdover.index[selection.index])
+
+    selection_y = selection.target
+    selection_x = selection.drop(['target'], axis=1)
+
+    train_x = train_x.append(selection_x, ignore_index=True)
+    train_y = train_y.append(selection_y, ignore_index=True)
+
+    if data_holdover.empty:
+        return True
+
+    return False
 
 
 def plot_scatter():
