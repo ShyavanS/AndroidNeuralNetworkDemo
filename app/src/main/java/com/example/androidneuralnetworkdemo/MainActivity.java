@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +26,8 @@ import com.chaquo.python.Python;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -115,13 +118,48 @@ public class MainActivity extends AppCompatActivity {
                 "A random datapoint has been chosen to be added to the dataset, press the Train button to retrain the model with new data.");
         selected.setPositiveButton("Dismiss", (dialog, id) -> dialog.dismiss());
 
-        AlertDialog trainedDialog = selected.create();
+        AlertDialog selectedDialog = selected.create();
 
-        trainedDialog.show();
+        selectedDialog.show();
 
         if (data_holdover_empty) {
             randomButton.setEnabled(false);
         }
+    }
+
+    public void onClickMeasure(View view) {
+        List<Integer> intList = new ArrayList<>();
+        List<Object[]> doubleList = new ArrayList<>();
+
+        long start = System.currentTimeMillis();
+        long end = start + 1000;
+
+        while (System.currentTimeMillis() < end) {
+            int randInt = 25 + (int) (Math.random() * 321);
+
+            intList.add(randInt);
+
+            List<Double> tempList = new ArrayList<>();
+            for (int j = 0; j < 10; j++) {
+                double randDouble = -0.2 + Math.random() * 0.4;
+
+                tempList.add(randDouble);
+            }
+            doubleList.add(tempList.toArray());
+        }
+
+        backend.callAttr("feed_data", doubleList.toArray(), intList.toArray());
+
+        AlertDialog.Builder measured = new AlertDialog.Builder(MainActivity.this);
+
+        measured.setTitle("Data Fed!");
+        measured.setMessage(
+                "Random datapoints have been added to the model, press the Train button to retrain the model with new data.");
+        measured.setPositiveButton("Dismiss", (dialog, id) -> dialog.dismiss());
+
+        AlertDialog measuredDialog = measured.create();
+
+        measuredDialog.show();
     }
 
     public void onClickLoad(View view) {

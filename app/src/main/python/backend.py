@@ -1,6 +1,5 @@
 import os
 import json
-from select import select
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -47,6 +46,20 @@ def train_model(epoch, rate):
     rms = mean_squared_error(test_y, prediction, squared=False)
 
     return rms
+
+
+def feed_data(arr_x, arr_y):
+    global train_x, train_y
+
+    arr_y = [int(i) for i in arr_y]
+
+    arr_x = [[float(j) for j in i] for i in arr_x]
+
+    arr_x = pd.DataFrame(arr_x, columns=train_x.columns)
+    arr_y = pd.Series(arr_y)
+
+    train_x = train_x.append(arr_x, ignore_index=True)
+    train_y = train_y.append(arr_y, ignore_index=True)
 
 
 def random_select():
