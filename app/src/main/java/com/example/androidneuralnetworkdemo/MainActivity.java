@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         List<Object[]> doubleList = new ArrayList<>();
 
         long start = System.currentTimeMillis();
-        long end = start + 1000;
+        long end = start + 100;
 
         while (System.currentTimeMillis() < end) {
             int randInt = 25 + (int) (Math.random() * 321);
